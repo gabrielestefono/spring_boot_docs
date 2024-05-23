@@ -7,7 +7,6 @@ Você pode configurar a autenticação username e senha assim:
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
@@ -30,7 +29,6 @@ public class SecurityConfig {
 
 		return new InMemoryUserDetailsManager(userDetails);
 	}
-
 }
 ```
 
@@ -48,11 +46,11 @@ Para aprender mais sobre a autenticação username/password, considere os links 
 * Eu quero publicar um bean AuthenticationManager para customizar a autenticação
 * Eu quero customizar um global AuthenticationManager
 
-# Publish an AuthenticationManager bean
+# Publicando um bean AuthenticationManager
 
-A fairly common requirement is publishing an AuthenticationManager bean to allow for custom authentication, such as in a @Service or Spring MVC @Controller. For example, you may want to authenticate users via a REST API instead of using Form Login.
+Um requerimento bastante comum é publicar um bean `AuthenticationManager` para permitir acessar uma autenticação customizada, assim como em um @service ou um @Controller para MVC Soring. Por exemplo, você pode querer autenticar usuários vi REST API, ao invés de usando Form Login.
 
-You can publish such an AuthenticationManager for custom authentication scenarios using the following configuration:
+Você pode publicar esse `AuthenticationManager` para cenários customizados usando a seguinte configuração:
 
 ```java
 @Configuration
@@ -71,9 +69,8 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(
-			UserDetailsService userDetailsService,
-			PasswordEncoder passwordEncoder) {
+	public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder)
+	{
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(userDetailsService);
 		authenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -100,7 +97,7 @@ public class SecurityConfig {
 }
 ```
 
-With the preceding configuration in place, you can create a @RestController that uses the AuthenticationManager as follows:
+Com o procedimento de configuração no lugar, você pode criar um @RestController que usa AuthenticatiorManager como a seguir:
 
 ```java
 @RestController
@@ -123,11 +120,10 @@ public class LoginController {
 
 	public record LoginRequest(String username, String password) {
 	}
-
 }
 ```
 
-# Customize the AuthenticationManager
+# Customizando o AuthenticationManager
 
 Normally, Spring Security builds an AuthenticationManager internally composed of a DaoAuthenticationProvider for username/password authentication. In certain cases, it may still be desired to customize the instance of AuthenticationManager used by Spring Security. For example, you may need to simply disable credential erasure for cached users.
 
